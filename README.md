@@ -21,7 +21,8 @@ Build Tool: Vite
 Deployment: Vercel / Netlify (specify what you used)
 
 📂 Folder Structure
-php
+
+react
 Copy
 Edit
 portfolio/
