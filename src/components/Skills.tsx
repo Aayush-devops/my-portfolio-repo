@@ -1,0 +1,156 @@
+import React from 'react';
+import { Database, Cloud, Code, Wrench, Monitor, Cpu } from 'lucide-react';
+
+const Skills: React.FC = () => {
+  const skillCategories = [
+    {
+      title: 'Databases',
+      icon: Database,
+      skills: [
+        { name: 'PostgreSQL', level: 82 },
+        { name: 'MySQL', level: 80 },
+        {name: 'MongoDB', level: 78 },
+        { name: 'SurrealDB', level: 80 },
+        { name: 'Snowflake', level: 95 },
+        { name: 'Databricks', level: 90 },
+        { name: 'Redshift', level: 70 },
+        { name: 'SQL Server', level: 88 }
+      
+      ],
+      gradient: 'from-cyan-400 to-blue-500'
+    },
+    {
+      title: 'Cloud Platforms',
+      icon: Cloud,
+      skills: [
+        { name: 'AWS', level: 80 },
+        { name: 'Azure', level: 95 },
+        { name: 'GCP', level: 75 },
+        { name: 'S3', level: 90 },
+        { name: 'Lambda', level: 85 },
+        { name: 'EC2', level: 80 },
+        { name: 'CloudFormation', level: 75 },
+        { name: 'Terraform', level: 80 }
+      ],
+      gradient: 'from-blue-500 to-purple-600'
+    },
+    {
+      title: 'Programming',
+      icon: Code,
+      skills: [
+        { name: 'HTML', level: 100 },
+        { name: 'CSS', level: 95 },
+        { name: 'JavaScript', level: 85 },
+        { name: 'TypeScript', level: 90 },
+        { name: 'Python', level: 70 },
+        { name: 'SQL', level: 75 },
+        { name: 'Shell Script', level: 85 }
+      ],
+      gradient: 'from-purple-600 to-pink-500'
+    },
+    {
+      title: 'Frameworks',
+      icon: Wrench,
+      skills: [
+        { name: 'React.js', level: 95 },
+        { name: 'Node.js', level: 85 },
+        { name: 'Express.js', level: 80 },
+        { name: 'Flask', level: 75 },
+        { name: 'Django', level: 70 },
+        { name: 'Spark', level: 88 },
+        { name: 'dbt', level: 92 },
+        { name: 'PySpark', level: 85 },
+        { name: 'Kafka', level: 80 }
+      ],
+      gradient: 'from-pink-500 to-rose-500'
+    },
+    {
+      title: 'Dev Tools',
+      icon: Monitor,
+      skills: [
+        { name: 'VS Code', level: 100 },
+        { name: 'Jupyter', level: 90 },
+        { name: 'PyCharm', level: 85 },
+        { name: 'Docker', level: 80 },
+        { name: 'Kubernetes', level: 75 },
+        { name: 'Terraform', level: 80 },
+        { name: 'DBeaver', level: 88 },
+        { name: 'Postman', level: 80 },
+        { name: 'Git', level: 90 },
+        { name: 'GitHub', level: 95 }
+      ],
+      gradient: 'from-rose-500 to-orange-500'
+    },
+    {
+      title: 'Systems',
+      icon: Cpu,
+      skills: [
+        { name: 'Linux', level: 85 },
+        { name: 'Windows', level: 90 },
+        { name: 'macOS', level: 80 }
+      ],
+      gradient: 'from-orange-500 to-yellow-500'
+    }
+  ];
+
+  return (
+    <section id="skills" className="py-6 sm:py-8 lg:py-16 bg-gradient-to-b from-slate-950 to-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-2 sm:mb-3 lg:mb-4 tracking-tight">
+            Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Expertise</span>
+          </h2>
+          <p className="text-sm sm:text-base lg:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            Comprehensive mastery of modern data engineering technologies
+          </p>
+        </div>
+
+        {/* Mobile: 2 columns (compact), Tablet: 2 columns, Desktop: 3 columns */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4 lg:gap-6">
+          {skillCategories.map((category, index) => {
+            const Icon = category.icon;
+            return (
+              <div key={index} className="group relative bg-slate-900/60 backdrop-blur-xl rounded-lg sm:rounded-xl lg:rounded-2xl p-2 sm:p-4 lg:p-6 border border-slate-800/60 hover:border-slate-700/60 transition-all duration-300 hover:transform hover:scale-105">
+                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-8 rounded-lg sm:rounded-xl lg:rounded-2xl transition-opacity duration-300`}></div>
+                
+                <div className="relative z-10">
+                  {/* Header - Optimized for mobile */}
+                  <div className="flex items-center gap-1.5 sm:gap-3 mb-2 sm:mb-4 lg:mb-5">
+                    <div className={`flex items-center justify-center w-5 h-5 sm:w-8 sm:h-8 lg:w-10 lg:h-10 bg-gradient-to-br ${category.gradient} bg-opacity-15 rounded-md sm:rounded-lg lg:rounded-xl group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xs sm:text-base lg:text-lg font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-500 transition-all duration-300 leading-tight">
+                      {category.title}
+                    </h3>
+                  </div>
+
+                  {/* Skills - Compact mobile layout */}
+                  <div className="space-y-1.5 sm:space-y-3">
+                    {category.skills.map((skill, skillIndex) => (
+                      <div key={skillIndex} className="group/skill">
+                        <div className="flex justify-between items-center mb-0.5 sm:mb-1.5">
+                          <span className="text-slate-300 font-medium text-[10px] sm:text-sm leading-tight truncate">{skill.name}</span>
+                          <span className="text-cyan-400 text-[8px] sm:text-xs font-bold flex-shrink-0 ml-1">{skill.level}%</span>
+                        </div>
+                        <div className="relative w-full bg-slate-800/60 rounded-full h-0.5 sm:h-1.5 lg:h-2 overflow-hidden">
+                          <div 
+                            className={`absolute top-0 left-0 h-full bg-gradient-to-r ${category.gradient} rounded-full transition-all duration-1000 ease-out shadow-sm`}
+                            style={{ width: `${skill.level}%` }}
+                          >
+                            <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Skills;

@@ -1,0 +1,238 @@
+import { Card, CardContent } from '../components/card';
+import { ArrowRight, Github, ExternalLink, Globe } from 'lucide-react';
+import { Button } from '../components/button';
+import { useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { projectsData } from '../data/projects';
+
+// Define the type for a project
+interface Project {
+  id: number | string;
+  title: string;
+  slug: string;
+  demo?: string | null;
+  github?: string | null;
+  image: string;
+  shortDescription: string;
+  technologies: string[];
+  featured?: boolean;
+}
+
+interface ProjectCardProps {
+  project: Project;
+  highlight?: boolean;
+}
+
+const ProjectsSection: React.FC = () => {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+
+  // Add fade-in animation when section comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in', 'fade-in', 'duration-700');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const sectionNode = sectionRef.current;
+    if (sectionNode) {
+      observer.observe(sectionNode);
+    }
+
+    return () => {
+      if (sectionNode) observer.unobserve(sectionNode);
+    };
+  }, []);
+
+  return (
+    <section
+      id="projects"
+      className="py-10 md:py-14 relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background border-b border-border/20"
+      aria-labelledby="projects-heading"
+    >
+      {/* Background decoration */}
+      <div className="absolute top-0 left-1/2 w-[300px] h-[200px] bg-gradient-to-br from-primary/10 to-primary/5 rounded-full blur-3xl -translate-x-1/2 -z-10"></div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-8 md:mb-10">
+          <p
+            className="text-primary font-medium uppercase tracking-wider text-sm mb-2"
+            aria-hidden="true"
+          >
+            Projects
+          </p>
+          <h2
+            id="projects-heading"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-2 sm:mb-3 lg:mb-4 tracking-tight"
+          >
+             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"> Live Projects Portfolio </span>
+           
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
+            All projects are deployed and ready to explore
+          </p>
+        </div>
+
+        <div
+          ref={sectionRef}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
+        >
+          {projectsData.map((project: Project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              highlight={project.featured}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, highlight = false }) => {
+  return (
+    <Card
+      className={`overflow-hidden transition-all hover:translate-y-[-4px] hover:shadow-lg focus-within:shadow-lg focus-within:border-primary/50 ${
+        highlight ? 'border-primary/30 shadow-md' : 'border-primary/10'
+      } h-full flex flex-col max-w-full mx-auto w-full`}
+    >
+      {/* Clickable image area */}
+      <a
+        href={project.demo ?? project.github ?? undefined}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block h-32 sm:h-40 bg-muted overflow-hidden relative group focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-inset"
+        aria-label={`View ${project.title} ${project.demo ? 'website' : 'project'}`}
+      >
+        <img
+          src={project.image}
+          alt={`Screenshot of ${project.title}`}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 group-focus:scale-105"
+          loading="lazy"
+        />
+
+        {/* Overlay with preview text */}
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <div className="text-white font-medium px-3 py-1.5 text-xs sm:text-sm rounded-md border border-white/30 backdrop-blur-sm">
+            {project.demo ? 'Visit Website' : 'View Project'}
+          </div>
+        </div>
+
+        {/* Browser-like frame effect */}
+        <div
+          className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-black/40 to-transparent opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300"
+          aria-hidden="true"
+        >
+          <div className="flex items-center gap-1.5 px-3 pt-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-yellow-500"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+          </div>
+        </div>
+      </a>
+
+      <CardContent className="p-3 sm:p-4 flex flex-col flex-1">
+        <h3 className="text-sm sm:text-base font-medium mb-1 sm:mb-2 flex items-center line-clamp-1">
+          {project.title}
+          {highlight && (
+            <span
+              className="ml-2 text-[10px] sm:text-xs bg-primary/20 text-primary px-1.5 sm:px-2 py-0.5 rounded-full font-medium shrink-0"
+              aria-label="Featured project"
+            >
+              Featured
+            </span>
+          )}
+        </h3>
+
+        <p className="text-[11px] sm:text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-3 flex-1">
+          {project.shortDescription}
+        </p>
+
+        <div
+          className="flex flex-wrap gap-1 sm:gap-1.5 mb-2 sm:mb-3"
+          aria-label="Project technologies"
+        >
+          {project.technologies.slice(0, 4).map((tech, index) => (
+            <span
+              key={index}
+              className="text-[9px] sm:text-[10px] bg-primary/10 text-primary px-1.5 sm:px-2 py-0.5 rounded-md font-medium whitespace-nowrap"
+            >
+              {tech}
+            </span>
+          ))}
+          {project.technologies.length > 4 && (
+            <span
+              className="text-[9px] sm:text-[10px] text-muted-foreground px-1"
+              aria-label={`And ${project.technologies.length - 4} more technologies`}
+            >
+              +{project.technologies.length - 4} more
+            </span>
+          )}
+        </div>
+
+        <div className="flex gap-1.5 sm:gap-2 mt-auto">
+          {project.demo && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs h-7 sm:h-8 px-2 sm:px-2.5 group flex-1"
+              asChild
+            >
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Visit ${project.title} website (opens in new tab)`}
+              >
+                <Globe
+                  className=" h-2.5 w-2.5 sm:h-3 sm:w-3 text-blue-700"
+                  aria-hidden="true"
+                />
+                <span>Visit Site</span>
+                <ExternalLink
+                  className="h-2 w-2 sm:h-2.5 sm:w-2.5 ml-0.5 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                  aria-hidden="true"
+                />
+              </a>
+            </Button>
+          )}
+
+          {project.github && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs h-7 sm:h-8 px-2 sm:px-2.5 flex-1"
+              asChild
+            >
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${project.title} source code on GitHub (opens in new tab)`}
+              >
+                <Github className="h-2.5 w-2.5 sm:h-3 sm:w-3" aria-hidden="true" />
+                <span>View Code</span>
+              </a>
+            </Button>
+          )}
+
+          {/* Add Learn More button */}
+          <Button size="sm" className=" bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs h-7 sm:h-8 px-2 sm:px-2.5 flex-1" asChild>
+            <Link to={`/projects/${project.slug}`}>
+              <span>Learn More</span>
+              <ArrowRight className="h-2.5 w-2.5 sm:h-3 sm:w-3" aria-hidden="true" />
+            </Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default ProjectsSection;
